@@ -1,0 +1,59 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Mahasiswa;
+use Illuminate\Http\Request;
+
+class MahasiswaController extends Controller
+{
+
+    //Tampilkan semua data
+    public function index()
+    
+{}
+    public function create()
+    {
+        
+
+        Mahasiswa::create($request -> all());
+        return redirect()->route('mahasiswa.index')-> with('Succes','Data berhasil ditambahkan')
+
+    }
+
+    //simpan data baru
+    public function store(Request $request)
+    {
+         $request -> validate([
+            'Nama Mahasiswa' -> 'required',
+            'NIM' -> 'required|unique:mahasiswa',
+            'Email' -> 'required',
+            'Jurusan' -> 'required',
+            'Alamat' -> 'required',
+        ]);
+
+    }
+
+    public function edit(string $id)
+    {
+        $:mahasiswa::findorfail($id)
+        return view('mahasiswa.edit',compact('mhs'));
+    }
+
+    //update data
+    public function update(Request $request, string $id)
+    {
+        $mhs:mahasiswa::findorfail($id);
+        $mhs -> update($request->all());
+        return redirect () -> route ('halaman.index')- >with ('Succes','Data berhasil ditambahkan')
+    }
+
+   //Hapus data
+    public function destroy(string $id)
+    {
+        Mahasiswa ::findorfail ($id)->delete();
+        return redirect() -> route ('mahasiswa.index')-> with ('Succes','Data berhasil ditambahkan')
+        
+    }
+
+}
